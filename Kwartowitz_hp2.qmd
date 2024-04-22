@@ -1,0 +1,24 @@
+---
+title: "Homework Project 2"
+author: "Ellie Kwartowitz"
+format: 
+  html:
+    embed-resources: true
+editor: visual
+editor_options:
+  chunk_output_type: console
+---
+
+## Hypothesis and Predictions
+
+The analysis performed on this dataset looks at two different hypotheses. The first hypothesis is whether age or gender have an impact upon the amount an individual spends on Valentines day gifts. The second hypothesis this study looks to examine is whether the amount an individual spends on this holiday has decreased over time, meaning that people have begun to celebrate less.
+
+```{r}
+historical_spending <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-02-13/historical_spending.csv')
+gifts_age <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-02-13/gifts_age.csv')
+gifts_gender <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-02-13/gifts_gender.csv')
+```
+
+```{r}
+library()
+```
