@@ -1,0 +1,195 @@
+---
+title: "Homework Project 2"
+author: "Ellie Kwartowitz"
+format: 
+  html:
+    embed-resources: true
+editor: visual
+editor_options:
+  chunk_output_type: console
+---
+
+## Importing Data
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show the code"
+#| warning: false
+
+#Reading in datasets
+historical_spending <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-02-13/historical_spending.csv')
+gifts_age <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-02-13/gifts_age.csv')
+gifts_gender <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-02-13/gifts_gender.csv')
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show the code"
+#| warning: false
+
+library(tidyverse)
+library(dplyr)
+library(kableExtra)
+library(ggplot2)
+```
+
+## Hypothesis and Predictions
+
+The analysis performed on this dataset looks at four different questions. The first question studied is whether gender has an impact upon the amount an individual spends on Valentine's day gifts. Similarly to the first question, the second question looks into whether age has an impact upon the amount an individual spends on Valentine's day gifts. Thirdly, the analysis explores whether the celebration of Valentine's day has changed over time. Finally, the analysis looks to examine whether the amount an individual spends on this holiday has decreased over time.
+
+## Codebook/Data Dictionary
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show the code"
+#| warning: false
+
+df_gender <- tibble::tribble(
+  ~variable, ~use,
+  "Gender", "Individuals gender (only men or women)",
+  "SpendingCelebrating", "Percent of people spending money on or celebrating Valentine's day",
+  "Candy", "Average percent spent on candy",
+  "Flowers", "Average percent spent on flowers",
+  "Jewlery", "Average percent spent on jewlery",
+  "GreetingCards", "Average percent spent on greeting cards",
+  "EveningOut", "Average percent spent on an evening out",
+  "Clothing", "Average percent spent on clothing",
+  "GiftCards", "Average percent spent on gift cards"
+)
+
+df_age <- tibble::tribble(
+  ~variable, ~use,
+  "Age", "Individuals age",
+  "SpendingCelebrating", "Percent of people spending money on or celebrating Valentine's day",
+   "Candy", "Average percent spent on candy",
+  "Flowers", "Average percent spent on flowers",
+  "Jewlery", "Average percent spent on jewlery",
+  "GreetingCards", "Average percent spent on greeting cards",
+  "EveningOut", "Average percent spent on an evening out",
+  "Clothing", "Average percent spent on clothing",
+  "GiftCards", "Average percent spent on gift cards"
+)
+
+df_year <- tibble::tribble(
+  ~variable, ~use,
+  "Year", "Year",
+  "PercentCelebrating", "Percent of people celebrating Valentine's day",
+   "PerPerson", "Average amount an individual spends",
+  "Candy", "Average amount spent on candy",
+  "Flowers", "Average amount spent on flowers",
+  "Jewlery", "Average amount spent on jewlery",
+  "GreetingCards", "Average amount spent on greeting cards",
+  "EveningOut", "Average amount spent on an evening out",
+  "Clothing", "Average amount spent on clothing",
+  "GiftCards", "Average amount spent on gift cards"
+)
+
+df_gender %>%
+  kbl() %>%
+  kable_styling()
+
+df_age %>%
+  kbl() %>%
+  kable_styling()
+
+df_year %>%
+  kbl() %>%
+  kable_styling()
+```
+
+## Genders Impact on Spending
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show the code"
+#| warning: false
+
+#Cleaning/Tidying data
+gifts_gender <- gifts_gender %>%
+  rename(SpendingorCelebrating = `SpendingCelebrating`)
+
+#Bar Graph for Celebrating/Spending on Valentine's Day 
+ggplot(gifts_gender, aes(x = Gender, y = SpendingorCelebrating, fill = Gender)) +
+  geom_col() +
+  labs(x = "Gender", y = "Percent Spent/Celebrated Valentine's Day", title = "Gender vs. Spending/Celebrating Valentine's Day")
+
+#Bar Graph for flowers purchased on Valentine's Day
+ggplot(gifts_gender, aes(x = Gender, y = Flowers, fill = Gender)) +
+  geom_col() +
+  labs(x = "Gender", y = "Average percent spent on flowers", title = "Gender vs. Percent spent on flowers purchased")
+
+#Bar Graph for jewelry purchased on Valentine's Day
+ggplot(gifts_gender, aes(x = Gender, y = Jewelry, fill = Gender)) +
+  geom_col() +
+  labs(x = "Gender", y = "Average percent spent on jewelry", title = "Gender vs. Percent spent on jewelry purchased")
+
+#Bar Graph for candy purchased on Valentine's Day
+ggplot(gifts_gender, aes(x = Gender, y = Candy, fill = Gender)) +
+  geom_col() +
+  labs(x = "Gender", y = "Average percent spent on candy", title = "Gender vs. Percent spent on candy purchased")
+```
+
+In the graph titled Gender vs. Spending/Celebrating Valentine's Day it demonstrates how, contrary to what was expected in the first hypothesis, there is no difference between genders and the amount a person spends or celebrates on Valentine's day. As demonstrated in the graph over 20% was spent on or celebrated on Valentine's day for both men and women. However, there are differences between genders and what specific gifts are purchased, as seen in the graph titled Gender vs. Percent spent on flowers purchased. When looking at the graph that was previously mentioned the data shows that the average percent spent on flowers on Valentine's day was significantly higher for men, over 40%, than women, lower than 20%. Therefore, this means that percent of money that was spent on flowers was higher for men than women. Similarly, when looking at the average percent of money spent on jewelry, as demonstrated in the graph titled Gender vs. Percent spent on jewelry purchased, it once again shows that the percent of money spent on jewelry was higher for men than for women on Valentine's day. Contrary to this though, when it comes to the average percent spent on candy purchased on Valentine's day, as demonstrated in the graph titled Gender vs. Percent spent on candy purchased, it is evident that more women than men spent money on candy as gifts. Although the difference is not as significant as that of prior graphs, it is still clear that gender has an impact on the percent spent on candy on Valentine's day.
+
+## Impact of Age on Spending
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show the code"
+#| warning: false
+
+#Cleaning/Tidying data
+gifts_age <- gifts_age %>%
+  rename(SpendingorCelebrating = `SpendingCelebrating`)
+
+#Bar Graph for Celebrating/Spending on Valentine's Day
+ggplot(gifts_age, aes(x = Age, y = SpendingorCelebrating, fill = Age)) +
+  geom_col() +
+  labs(x = "Age", y = "Percent Spent/Celebrated Valentine's Day", title = "Age vs. Spending/Celebrating Valentine's Day")
+
+#Bar Graph for flowers purchased on Valentine's Day
+ggplot(gifts_age, aes(x = Age, y = Flowers, fill = Age)) +
+  geom_col() +
+  labs(x = "Age", y = "Average percent spent on flowers", title = "Age vs. Percent spent on flowers purchased")
+
+#Bar Graph for jewelry purchased on Valentine's Day
+ggplot(gifts_age, aes(x = Age, y = Jewelry, fill = Age)) +
+  geom_col() +
+  labs(x = "Age", y = "Average percent spent on jewelry", title = "Age vs. Percent spent on jewelry purchased")
+```
+
+In the graph titled Age vs. Spending/Celebrating Valentine's Day it demonstrates how age does have an impact on the amount a person spends or celebrates on Valentine's Day. This supports the second hypothesis that age does have an impact upon the amount an individual spends on Valentine's day gifts. Contrary to what was demonstrated between gender and celebrating Valentine's day, when looking at the bar graph titled Age vs. Spending/Celebrating Valentine's day, it is apparent that as individuals get older the percent they spend or celebrate on Valentine's day decreases. One interesting finding, though, is that when looking at the relationship between age and specific gifts purchased on Valentine's day, the average percent spent on the gifts does not always decrease as age increases. As mentioned previously, when the relationship between gender and specific gifts purchased on Valentine's day was analyzed the gender did affect the percent spent on specific gifts, such as flowers or jewelry. However, age does not always have an impact on the percent spent on specific gifts. For instance, when looking at the bar graph titled Age vs Percent spent on jewelry purchased, the bar graph demonstrates that the average percent of money spent on jewelry remains fairly consistent between ages 18-24 and 25-34. On the other hand, though, when looking at the bar graph titled Age vs Percent spent on flowers purchased, the data demonstrates that ages 18-24 had the highest average percent spent on flowers. Following ages 18-24, as people increased in age the average percent spent on flowers gradually decreased. Therefore, when it comes to looking at the relationship between age and the percent spent on specific gifts it dooes not show the same distinct inverse relationship as that between age and the percent a person spends or celebrates on Valentine's day.
+
+## Impact of Time on Valentine's Day Celebration
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show the code"
+#| warning: false
+
+#Bar Graph for Percent Celebrating on Valentine's Day 
+ggplot(historical_spending, aes(x = Year, y = PercentCelebrating, fill = Year)) +
+  geom_col() +
+  labs(x = "Year", y = "Percent Celebrating", title = "Year vs. Percent of People Celebrating Valentine's Day")
+```
+
+The graph above titled Year vs. Percent of People Celebrating Valentine's day supports the third hypothesis. This bar graph demonstrates that over time the percent of individuals celebrating Valentine's day has gradually decreased. Although the change over the years is not too significant, it is still evident from looking at the graph that the percent is lower. For instance, when looking at the year 2012, where the percent celebrating is close to 60%, compared to the year 2020, where the percent celebrating is much further from the 60% line, there is a significant difference.
+
+## Impact of Time on Individual Spending
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show the code"
+#| warning: false
+
+#Line Graph for Individual Spending on Valentine's Day
+ggplot(historical_spending, aes(x = Year, y = PerPerson)) +
+  geom_line(color = "red") +
+  labs(x = "Year", y = "Average Amount spent per person", title = "Historical Spending Per Person Over Time on Valentine's Day")
+```
+
+Lastly, in the graph above titled Historical Spending Per Person Over Time on Valentine's day, the results contradict the final hypothesis of the analysis. Contrary to what was expected, the line graph demonstrates that the average amount an individual spends on the holiday has increased, not decreased, over time. Although there are a couple outliers in the data where dips occur on the graph, specifically around the years 2017, 2018, 2021 and 2022, the general trend in the data is that as time has gone by people have begun to spend more money on Valentine's day.
+
+## Conclusion
+
+In conclusion, after performing analysis on this dataset it can be concluded that age does have an impact upon the percent of spending or celebrating on Valentine's day. Contrary to age though, gender does not have an impact upon the percent of spending or celebrating on Valentine's day. However, gender does have an impact upon the amount spent on specific gift, such as candy or flowers, on Valentine's day. Furthermore, analysis of the data has demonstrated that from 2010 to present the percent of people celebrating Valentine's day is gradually decreasing. Lastly, the analysis has demonstrated that, despite less people celebrating the holiday, over time the average amount of money spent per person on Valentine's day has increased.
